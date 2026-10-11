@@ -1,0 +1,31 @@
+{
+ "name": "烟火侠客 挂机版",
+ "short_name": "烟火挂机",
+ "lang": "zh-CN",
+ "description": "你好好吃饭、早早睡觉，小侠客替你走江湖，把好东西一件件带回家。",
+ "id": "./",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#efdfbd",
+ "theme_color": "#3a2617",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}

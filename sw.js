@@ -4,8 +4,11 @@ const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png',
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith('yhxk-') && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', e => {
-  const r = e.request; if (r.method !== 'GET' || new URL(r.url).origin !== location.origin) return;
-  const page = r.mode === 'navigate' || r.destination === 'document';
+  const r = e.request, u = new URL(r.url), base = new URL(self.registration.scope).pathname;
+  if (r.method !== 'GET' || u.origin !== location.origin) return;
+  // 只管自己这一层的文件；子文件夹（比如 idle/ 挂机版）是别的游戏，不碰
+  if (!u.pathname.startsWith(base) || u.pathname.slice(base.length).includes('/')) return;
+  const page = (r.mode === 'navigate' || r.destination === 'document') && (u.pathname === base || u.pathname === base + 'index.html');
   if (page) {   // 网络 3 秒没回应就先用缓存打开，网络回来后照样更新缓存
     const net = fetch(r).then(res => { if (res.ok) { const cp = res.clone(); caches.open(CACHE).then(c => c.put('./index.html', cp)); } return res; });
     const old = () => caches.match('./index.html').then(x => x || caches.match('./'));
