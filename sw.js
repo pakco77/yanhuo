@@ -1,5 +1,5 @@
 // 离线缓存：页面先走网络（有网就拿最新版），没网或网络卡住用缓存；图标和 manifest 先用缓存
-const CACHE = 'yhxk-402ac21116';
+const CACHE = 'yhxk-6adc779fc0';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith('yhxk-') && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
